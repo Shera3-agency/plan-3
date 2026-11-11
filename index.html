@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطة عمل الميديا باير 3 أشهر | متجر هلا تكس</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldHover: '#B8962E',
+                            dark: '#0B0F17',
+                            card: '#1F2937',
+                            accent: '#3B82F6',
+                            emerald: '#10B981',
+                            rose: '#F43F5E'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0B0F17; color: #F3F4F6; }
+        .glass-panel { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .active-nav { background: #D4AF37; color: #111827 !important; font-weight: 700; shadow: 0 4px 14px rgba(212, 175, 55, 0.4); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #111827; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 23px;
+            width: 4px;
+            background: linear-gradient(180deg, #D4AF37 0%, #3B82F6 50%, #10B981 100%);
+            border-radius: 2px;
+        }
+        @keyframes pulseSlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+        .pulse-card { animation: pulseSlow 4s infinite ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar overflow-x-hidden">
+
+    <!-- TOP GLOBAL NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800 px-4 py-2.5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <!-- Brand & Plan Info -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-900 font-black text-xl shadow-lg">
+                    هـ
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white flex items-center gap-2">
+                        خطة الـ 90 يوماً للميديا باير <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">Media Buying Roadmap</span>
+                    </h1>
+                    <p class="text-xs text-gray-400">استراتيجية إدارة وتمويل الحملات وتكثيف المبيعات لمتجر هلا تكس</p>
+                </div>
+            </div>
+
+            <!-- Chapter Navigation Tabs -->
+            <nav class="flex items-center gap-1 overflow-x-auto max-w-full py-1 custom-scrollbar">
+                <button onclick="switchTab('overview')" id="tab-overview" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all text-gray-300 hover:bg-gray-800 active-nav">
+                    <i class="fa-solid fa-compass ml-1"></i> 1. نظرة عامة
+                </button>
+                <button onclick="switchTab('pricing')" id="tab-pricing" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all text-gray-300 hover:bg-gray-800">
+                    <i class="fa-solid fa-coins ml-1"></i> 2. التكاليف والاستثمار
+                </button>
+                <button onclick="switchTab('timeline')" id="tab-timeline" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all text-gray-300 hover:bg-gray-800">
+                    <i class="fa-solid fa-calendar-week ml-1"></i> 3. خطة الـ 3 أشهر
+                </button>
+                <button onclick="switchTab('workflow')" id="tab-workflow" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all text-gray-300 hover:bg-gray-800">
+                    <i class="fa-solid fa-vial-circle-check ml-1"></i> 4. آلية الحملات والتست
+                </button>
+                <button onclick="switchTab('reporting')" id="tab-reporting" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all text-gray-300 hover:bg-gray-800">
+                    <i class="fa-solid fa-chart-pie ml-1"></i> 5. التقارير والـ KPIs
+                </button>
+            </nav>
+
+            <!-- Mode Switcher -->
+            <div class="flex items-center bg-gray-900 p-1 rounded-xl border border-gray-700">
+                <button id="view-presentation-btn" onclick="setMode('presentation')" class="px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow">
+                    <i class="fa-solid fa-desktop"></i> عرض العميل
+                </button>
+                <button id="view-editor-btn" onclick="setMode('editor')" class="px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-sliders"></i> التعديل والحاسبة
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- LEFT/CENTER CONTENT PANEL -->
+        <section id="content-container" class="lg:col-span-8 space-y-6">
+
+            <!-- TAB 1: OVERVIEW & GOALS -->
+            <div id="section-overview" class="tab-content space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-amber-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">01</span>
+                            خطة العمل والإدارة الإعلانية (3 Months Execution Plan)
+                        </h2>
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">Media Buying Roadmap</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        توضح هذه الخطة خطوات إدارة وتمويل الحملات الإعلانية لمتجر هلا تكس على مدار 3 أشهر. نعتمد على **نهج علمي منظم** يمر بمراحل الاختبار، ثم عزل الحملات الناجحة، ثم التوسع التدريجي بناءً على نتائج الإعلانات الفعلية.
+                    </p>
+
+                    <!-- Key Pillars Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-800/60 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-all">
+                            <div class="text-amber-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-vials text-lg"></i> 1. الاختبار والتتبع (Testing)
+                            </div>
+                            <p class="text-xs text-gray-400">تجهيز الـ Pixel/CAPI واختبار المنصات وزوايا الإعلانات لتحديد المنصة الرابحة.</p>
+                        </div>
+                        <div class="bg-gray-800/60 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-all">
+                            <div class="text-blue-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-filter text-lg"></i> 2. عزل الحملات (Isolation)
+                            </div>
+                            <p class="text-xs text-gray-400">فصل إعلانات التست عن إعلانات التحويل وإعادة الاستهداف (Retargeting) لحماية الميزانية.</p>
+                        </div>
+                        <div class="bg-gray-800/60 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-all">
+                            <div class="text-emerald-400 font-bold mb-2 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-rocket text-lg"></i> 3. التوسع (Scaling)
+                            </div>
+                            <p class="text-xs text-gray-400">زيادة الميزانية الإعلانية بأمان على المنصة والإعلانات الأكثر كفاءة وسرعة.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Execution Breakdown -->
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-amber-400"></i> ملخص المهام الميدانية والمراحل
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-xs">
+                        <div class="bg-gray-900/60 p-4 rounded-xl border border-gray-800 space-y-2">
+                            <span class="text-amber-400 font-bold block border-b border-gray-800 pb-1"><i class="fa-solid fa-microscope ml-1"></i> آلية اختيار المنصة (Winner Platform):</span>
+                            <p class="text-gray-300 leading-relaxed">
+                                يتم إطلاق إعلانات اختبارية أولية على أكثر من منصة، وتتبع البيانات لمعرفة أي منصة تحقق أعلى استجابة وأقل تكلفة وصول، ثم تركيز الميزانية الأساسية عليها دون إهدار أموالك في منصات متعددة بدون جدوى.
+                            </p>
+                        </div>
+                        <div class="bg-gray-900/60 p-4 rounded-xl border border-gray-800 space-y-2">
+                            <span class="text-blue-400 font-bold block border-b border-gray-800 pb-1"><i class="fa-solid fa-chart-pie ml-1"></i> الشفافية والتقارير:</span>
+                            <p class="text-gray-300 leading-relaxed">
+                                استلام تقرير شهري تفصيلي يوضح أين ذُهبت كل ريـال من الميزانية، وما هي المنصات والإعلانات التي تم اعتمادها أو إيقافها، مع توصيات تطوير المحتوى للشهر التالي.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: PRICING & INVESTMENT -->
+            <div id="section-pricing" class="tab-content space-y-6 hidden">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">02</span>
+                        التكاليف والميزانية الإعلانية
+                    </h2>
+
+                    <!-- Costs Breakdown Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Media Buyer Fee Card -->
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-5 rounded-2xl border border-amber-500/40 relative">
+                            <span class="bg-amber-500/20 text-amber-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-amber-500/30">أتعاب إدارة الميديا باير</span>
+                            <div class="mt-3 flex items-baseline gap-2">
+                                <span class="text-3xl font-extrabold text-white" id="fee-display">3,500</span>
+                                <span class="text-sm font-semibold text-amber-400">ريال إجمالي الـ 3 أشهر</span>
+                            </div>
+                            <div class="text-xs text-amber-300/80 mt-1 font-semibold">
+                                (حوالي 1,166 ريال / شهرياً)
+                            </div>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                                أتعاب مقطوعة شاملة لفترة التعاقد (3 أشهر) لقاء إدارة وتخطيط الحملات، إعداد ربط الـ Pixel/CAPI، إجراء اختبارات الـ A/B Testing، عزل الحملات، والتقارير الشهرية.
+                            </p>
+                        </div>
+
+                        <!-- Initial Ad Budget Card -->
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-5 rounded-2xl border border-blue-500/40 relative">
+                            <span class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/30">ميزانية الحملات (تُدفع للمنصات مباشرة)</span>
+                            <div class="mt-3 flex items-baseline gap-2">
+                                <span class="text-3xl font-extrabold text-white" id="ad-budget-display">2,000</span>
+                                <span class="text-sm font-semibold text-blue-400">ريال / شهرياً</span>
+                            </div>
+                            <div class="text-xs text-blue-300/80 mt-1 font-semibold">
+                                (إجمالي الإعلانات لـ 3 أشهر: 6,000 ريال)
+                            </div>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                                الميزانية التشغيلية لبدء تشغيل الحملات واختبار المنصات والإعلانات. (يمكن رفع الميزانية حسب رغبة العميل للسرعة والتوسع).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Important Explanation: Budget As Investment -->
+                    <div class="bg-amber-950/20 border border-amber-500/30 p-5 rounded-2xl space-y-3">
+                        <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb"></i> ملاحظة هامة حول زيادة ميزانية الحملات الإعلانية:
+                        </h3>
+                        <ul class="text-xs text-gray-300 space-y-2 leading-relaxed list-disc list-inside">
+                            <li><strong class="text-white">سرعة الاختيارات والتجارب:</strong> 2,000 ريال شهرياً هي الميزانية المبدئية المناسبة لبدء التست. وكلما كانت الميزانية أكبر، كلما جمعت خوارزميات المنصة بيانات أكثر وبسرعة أسرع.</li>
+                            <li><strong class="text-white">سهولة اختبار زوايا الإعلانات:</strong> الميزانية المرتفعة تتيح اختصار وقت التجربة وإظهار الإعلان الفائز والوصول للجمهور المستهدف خلال أيام قليلة.</li>
+                            <li><strong class="text-white">قرار التوسع بيد العميل:</strong> زيادة الميزانية تكون استثماراً تدريجياً يتم بعد التأكد من كفاءة الحملات في الشهرين الأول والثاني.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: 3-MONTH DETAILED ROADMAP -->
+            <div id="section-timeline" class="tab-content space-y-6 hidden">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">03</span>
+                        خطة العمل التفصيلية على مدار الـ 90 يوماً
+                    </h2>
+                    <p class="text-xs text-gray-400 mb-6">خطوات تنفيدية واضحة ومحددة لكل شهر</p>
+
+                    <!-- Timeline Vertical Container -->
+                    <div class="relative timeline-line space-y-8 pr-4">
+
+                        <!-- Month 1 -->
+                        <div class="relative flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-lg z-10 shadow-lg shrink-0">
+                                M1
+                            </div>
+                            <div class="bg-gray-800/80 p-5 rounded-2xl border border-gray-700 flex-1 space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-base font-bold text-amber-400">الشهر الأول: التأسيس، التست وتحديد المنصة الفائزة</h3>
+                                    <span class="text-[10px] px-2.5 py-1 bg-amber-500/10 text-amber-300 rounded-full border border-amber-500/20">الأيام 1 - 30</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300">
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-vials text-amber-400 ml-1"></i> المهام التأسيسية:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>تثبيت وفحص الـ Pixel و Conversion API.</li>
+                                            <li>إطلاق حملات اختبار على المنصات المتاحة.</li>
+                                            <li>اختبار زوايا المحتوى (الفيديوهات، الخامات، الباقات).</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-trophy text-amber-400 ml-1"></i> النتائج والمخرجات:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>تحديد المنصة الفائزة (Winner Platform).</li>
+                                            <li>إيقاف الإعلانات والمنصات غير الكفؤة.</li>
+                                            <li>تسليم التقرير الشهري الأول.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Month 2 -->
+                        <div class="relative flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-500 text-white flex items-center justify-center font-black text-lg z-10 shadow-lg shrink-0">
+                                M2
+                            </div>
+                            <div class="bg-gray-800/80 p-5 rounded-2xl border border-gray-700 flex-1 space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-base font-bold text-blue-400">الشهر الثاني: التركيز على المنصة الفائزة وعزل الحملات</h3>
+                                    <span class="text-[10px] px-2.5 py-1 bg-blue-500/10 text-blue-300 rounded-full border border-blue-500/20">الأيام 31 - 60</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300">
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-filter text-blue-400 ml-1"></i> إجراءات التحسين والعزل:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>تحويل معظم الميزانية نحو المنصة الفائزة.</li>
+                                            <li>عزل حملات الجمهور الجديد عن حملات إعادة الاستهداف.</li>
+                                            <li>استهداف زوار المتجر والسلات المتروكة.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-bullseye text-blue-400 ml-1"></i> النتائج والمخرجات:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>تحسين تكلفة الوصول والتحويل.</li>
+                                            <li>استقرار أداء الإعلانات وتجنب التشتيت.</li>
+                                            <li>تسليم التقرير الشهري الثاني.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Month 3 -->
+                        <div class="relative flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-lg z-10 shadow-lg shrink-0">
+                                M3
+                            </div>
+                            <div class="bg-gray-800/80 p-5 rounded-2xl border border-gray-700 flex-1 space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-base font-bold text-emerald-400">الشهر الثالث: التوسع وحملات التكرار (Scaling & Retention)</h3>
+                                    <span class="text-[10px] px-2.5 py-1 bg-emerald-500/10 text-emerald-300 rounded-full border border-emerald-500/20">الأيام 61 - 90</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300">
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-rocket text-emerald-400 ml-1"></i> خطة التوسع:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>توسع رأسي (زيادة تدريجية للميزانية على الحملات الناجحة).</li>
+                                            <li>توسع أفقي (استهداف شرائح وجماهير شبيهة جديدة).</li>
+                                            <li>إعادة استهداف العملاء السابقين لشراء باقات جديدة.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-900/60 p-3 rounded-xl">
+                                        <strong class="text-white block mb-1"><i class="fa-solid fa-chart-line text-emerald-400 ml-1"></i> النتائج والمخرجات:</strong>
+                                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                                            <li>استدامة نتائج الإعلانات.</li>
+                                            <li>تسليم التقرير الشامل الختامي للـ 3 أشهر.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: WORKFLOW & CAMPAIGN MECHANICS -->
+            <div id="section-workflow" class="tab-content space-y-6 hidden">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">04</span>
+                        دورة تفاصيل تنفيذ الحملات (Campaign Workflow)
+                    </h2>
+                    <p class="text-xs text-gray-400 mb-6">كيفية إدارة الحركة الإعلانية من الاختبار حتى التوسع</p>
+
+                    <!-- Campaign Steps Workflow Diagram -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-center">
+                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 relative">
+                            <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold mx-auto mb-2 flex items-center justify-center text-xs">1</div>
+                            <h4 class="font-bold text-white text-xs mb-1">اختبار الإعلانات (Testing)</h4>
+                            <p class="text-[10px] text-gray-400">تجربة زوايا فيديو ونصوص مختلفة على منصة أو أكثر.</p>
+                        </div>
+
+                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 relative">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold mx-auto mb-2 flex items-center justify-center text-xs">2</div>
+                            <h4 class="font-bold text-white text-xs mb-1">عزل الحملات (Isolation)</h4>
+                            <p class="text-[10px] text-gray-400">نقل الإعلانات الفائزة إلى حملات مستقلة مخصصة.</p>
+                        </div>
+
+                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 relative">
+                            <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold mx-auto mb-2 flex items-center justify-center text-xs">3</div>
+                            <h4 class="font-bold text-white text-xs mb-1">التحويل للمتجر (Conversion)</h4>
+                            <p class="text-[10px] text-gray-400">توجيه الزائر لصفحة المنتج أو الباقة المناسبة مباشرة.</p>
+                        </div>
+
+                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 relative">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold mx-auto mb-2 flex items-center justify-center text-xs">4</div>
+                            <h4 class="font-bold text-white text-xs mb-1">التوسع (Scaling)</h4>
+                            <p class="text-[10px] text-gray-400">رفع الميزانيات على الحملات الناجحة وتفعيل إعادة الاستهداف.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: MONTHLY REPORTING & KPIS -->
+            <div id="section-reporting" class="tab-content space-y-6 hidden">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">05</span>
+                        محتويات التقرير الشهري للعميل
+                    </h2>
+                    <p class="text-xs text-gray-400 mb-6">شفافية كاملة عبر تقارير دورية تضعك على علم بجميع التحليلات والإنفاق</p>
+
+                    <!-- Monthly Report Deliverables Structure -->
+                    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
+                        <h3 class="text-sm font-bold text-amber-400 border-b border-gray-800 pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-file-contract"></i> بنود التقرير الشهري:
+                        </h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-gray-800/50 p-3 rounded-xl">
+                                <strong class="text-white block mb-1">1. بيان الإنفاق التفصيلي:</strong>
+                                <span class="text-gray-400">توضيح إجمالي ما تم إنفاقه في كل منصة إعلانية ومقارنته بالميزانية المحددة.</span>
+                            </div>
+
+                            <div class="bg-gray-800/50 p-3 rounded-xl">
+                                <strong class="text-white block mb-1">2. نتائج اختبار المنصات:</strong>
+                                <span class="text-gray-400">تبيان المنصات والإعلانات التي تم إيقافها، وتوضيح سبب اعتماد المنصة الرابحة.</span>
+                            </div>
+
+                            <div class="bg-gray-800/50 p-3 rounded-xl">
+                                <strong class="text-white block mb-1">3. مؤشرات التفاعل والتصفح:</strong>
+                                <span class="text-gray-400">تكلفة النقرة (CPC)، نسبة النقرات (CTR)، ونسبة قضاء الوقت بالمتجر.</span>
+                            </div>
+
+                            <div class="bg-gray-800/50 p-3 rounded-xl">
+                                <strong class="text-white block mb-1">4. توصيات العمل للشهر التالي:</strong>
+                                <span class="text-gray-400">مقترحات تعديل فيديوهات أو صور أو باقات بناءً على ردود فعل الزوار الحقيقية.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT SIDEBAR: INTERACTIVE CALCULATOR & LIVE CLIENT SUMMARY -->
+        <aside class="lg:col-span-4 space-y-6">
+
+            <!-- BUDGET & FINANCIAL SUMMARY PANEL -->
+            <div class="glass-panel p-5 rounded-2xl sticky top-20 space-y-5">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-amber-400"></i> تفاصيل التكاليف المالية
+                    </h3>
+                    <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">شفافية مالية</span>
+                </div>
+
+                <!-- Interactive Budget Slider -->
+                <div>
+                    <div class="flex justify-between items-center mb-1 text-xs">
+                        <span class="text-gray-300 font-semibold">ميزانية الإعلانات الشهريّة المقترحة:</span>
+                        <span class="text-amber-400 font-bold text-sm" id="calc-budget-label">2,000 ريال</span>
+                    </div>
+                    <input type="range" id="budget-range" min="2000" max="15000" step="500" value="2000" oninput="calculateGrowth()" class="w-full accent-amber-500 cursor-pointer">
+                    <div class="flex justify-between text-[9px] text-gray-500 mt-1">
+                        <span>2,000 ريال (أدنى ميزانية)</span>
+                        <span>15,000 ريال (ميزانية توسعية)</span>
+                    </div>
+                </div>
+
+                <!-- Dynamic Results Breakdown -->
+                <div class="bg-gray-900/90 border border-gray-800 p-4 rounded-xl space-y-3 text-xs">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">إجمالي أتعاب الميديا باير (3 أشهر):</span>
+                        <span class="font-bold text-amber-400">3,500 ريال</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">ميزانية الإعلانات / شهرياً:</span>
+                        <span class="font-bold text-blue-400" id="calc-monthly-ad-total">2,000 ريال</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">ميزانية الإعلانات الإجمالية (3 أشهر):</span>
+                        <span class="font-bold text-blue-300" id="calc-3month-ad-total">6,000 ريال</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400">إجمالي الالتزام الشامل (3 أشهر):</span>
+                        <span class="font-extrabold text-white text-sm" id="calc-total-cost">9,500 ريال</span>
+                    </div>
+                </div>
+
+                <div class="text-[10px] text-gray-400 bg-gray-800/40 p-3 rounded-lg border border-gray-700/50 leading-relaxed">
+                    <i class="fa-solid fa-circle-info text-amber-400 ml-1"></i> <strong>تنبيه:</strong> ميزانية الحملات تُدفع مباشرة للمنصات الإعلانية (Meta, TikTok, Snapchat)، وأتعاب الميديا باير (3,500 ريال) هي إجمالي المقابل عن الـ 3 أشهر كاملة.
+                </div>
+            </div>
+
+            <!-- EDITOR CONTROLS PANEL (Visible in Editor Mode) -->
+            <div id="editor-controls" class="glass-panel p-5 rounded-2xl hidden space-y-4 border border-amber-500/30">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                    <h3 class="font-bold text-white text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-code text-amber-400"></i> تعديل التكاليف والأرقام
+                    </h3>
+                    <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">مباشر</span>
+                </div>
+
+                <div>
+                    <label class="text-[11px] text-gray-400 block mb-1">إجمالي أتعاب الميديا باير لـ 3 أشهر (ريال)</label>
+                    <input type="number" id="input-fee" value="3500" oninput="updateCustomData()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-white focus:border-amber-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="text-[11px] text-gray-400 block mb-1">الميزانية الإعلانية الشهرية (ريال)</label>
+                    <input type="number" id="input-ad-budget" value="2000" oninput="updateCustomData()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-white focus:border-amber-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="text-[11px] font-bold text-amber-400 block mb-1">كود ملخص الاتفاقية (JSON Code)</label>
+                    <pre id="code-output" class="bg-gray-950 p-2.5 rounded-lg text-[10px] text-gray-300 font-mono overflow-x-auto max-h-32 custom-scrollbar border border-gray-800"></pre>
+                    <button onclick="copyCode()" class="mt-2 w-full py-1.5 bg-gray-800 hover:bg-gray-700 text-xs text-gray-200 font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> نسخ التكوين البرمجي
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-gray-800 py-4 px-6 text-center text-xs text-gray-400 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <span>© 2026 خطة الميديا باير المعتمدة - متجر هلا تكس. جميع الحقوق محفوظة.</span>
+            <span class="text-amber-400 font-semibold"><i class="fa-solid fa-chart-line ml-1"></i> جاهز للعرض والمناقشة مع العميل</span>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Tab Navigation Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active-nav'));
+
+            const selectedContent = document.getElementById(`section-${tabId}`);
+            if (selectedContent) selectedContent.classList.remove('hidden');
+
+            const selectedBtn = document.getElementById(`tab-${tabId}`);
+            if (selectedBtn) selectedBtn.classList.add('active-nav');
+        }
+
+        // Presentation vs Editor Mode Toggle
+        function setMode(mode) {
+            const presBtn = document.getElementById('view-presentation-btn');
+            const edBtn = document.getElementById('view-editor-btn');
+            const editorControls = document.getElementById('editor-controls');
+
+            if (mode === 'presentation') {
+                presBtn.className = "px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+                edBtn.className = "px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-gray-400 hover:text-white";
+                editorControls.classList.add('hidden');
+            } else {
+                edBtn.className = "px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-amber-500 text-slate-950 shadow";
+                presBtn.className = "px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-gray-400 hover:text-white";
+                editorControls.classList.remove('hidden');
+            }
+        }
+
+        // Budget & Financial Calculation
+        function calculateGrowth() {
+            const monthlyAdBudget = parseInt(document.getElementById('budget-range').value) || 2000;
+            const totalFee = parseInt(document.getElementById('input-fee').value) || 3500;
+            const totalAdBudget3Months = monthlyAdBudget * 3;
+
+            document.getElementById('calc-budget-label').innerText = monthlyAdBudget.toLocaleString() + ' ريال';
+            document.getElementById('calc-monthly-ad-total').innerText = monthlyAdBudget.toLocaleString() + ' ريال';
+            document.getElementById('calc-3month-ad-total').innerText = totalAdBudget3Months.toLocaleString() + ' ريال';
+            document.getElementById('calc-total-cost').innerText = (totalAdBudget3Months + totalFee).toLocaleString() + ' ريال';
+
+            updateCodeOutput();
+        }
+
+        // Custom Inputs Update
+        function updateCustomData() {
+            const fee = document.getElementById('input-fee').value;
+            const adBudget = document.getElementById('input-ad-budget').value;
+
+            document.getElementById('fee-display').innerText = parseInt(fee).toLocaleString();
+            document.getElementById('ad-budget-display').innerText = parseInt(adBudget).toLocaleString();
+
+            calculateGrowth();
+        }
+
+        // Generate JSON Code Output
+        function updateCodeOutput() {
+            const totalFee = document.getElementById('input-fee').value;
+            const monthlyAdBudget = document.getElementById('budget-range').value;
+            const totalAdBudget = parseInt(monthlyAdBudget) * 3;
+            
+            const config = {
+                client: "Hala Tex Store",
+                service: "Media Buying (3 Months Contract)",
+                totalMediaBuyerFee3Months: totalFee + " SAR",
+                monthlyAdBudget: monthlyAdBudget + " SAR",
+                totalAdBudget3Months: totalAdBudget + " SAR",
+                grandTotalInvestment3Months: (parseInt(totalFee) + totalAdBudget) + " SAR",
+                executionPhases: [
+                    "Month 1: Pixel Setup, Platform Testing & Winner Platform Selection",
+                    "Month 2: Campaign Isolation & Funnel Optimization",
+                    "Month 3: Controlled Scaling & Customer Retention"
+                ]
+            };
+            document.getElementById('code-output').innerText = JSON.stringify(config, null, 2);
+        }
+
+        // Copy Code Helper
+        function copyCode() {
+            const codeText = document.getElementById('code-output').innerText;
+            const textArea = document.createElement("textarea");
+            textArea.value = codeText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> تم النسخ!`;
+            setTimeout(() => btn.innerHTML = originalText, 2000);
+        }
+
+        // Initialize Page
+        window.onload = function() {
+            calculateGrowth();
+        };
+    </script>
+</body>
+</html>
